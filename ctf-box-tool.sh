@@ -64,7 +64,7 @@ fi
 if [ -n "$RUN_IMAGE" ]
 then
   echo -e "${GREEN}[Running]${NC} ${BUILDER_NAME}"
-  # docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" -it $BUILDER_NAME
+  # Why all these options? https://github.com/tonyOreglia/argument-counter/wiki/How-to-use-GDB-within-Docker-Container
   docker run --hostname $HOSTNAME --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
     -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" -it $BUILDER_NAME $BASH_BIN
 fi
