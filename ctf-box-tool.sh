@@ -7,6 +7,7 @@ NC='\033[0m'
 BUILDER_NAME=ctf-box:build
 CONTAINER_NAME=ctf-box
 VOLUME_NAME=ctf-box-volume
+HOSTNAME=machinex
 BASH_BIN=/bin/zsh
 
 CURRENT_DIR=$(pwd)
@@ -64,6 +65,6 @@ if [ -n "$RUN_IMAGE" ]
 then
   echo -e "${GREEN}[Running]${NC} ${BUILDER_NAME}"
   # docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" -it $BUILDER_NAME
-  docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
+  docker run --hostname $HOSTNAME --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
     -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" -it $BUILDER_NAME $BASH_BIN
 fi
