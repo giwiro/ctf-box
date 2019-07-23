@@ -5,13 +5,17 @@ WORKDIR /root/
 # Update Ubuntu Software repository
 RUN apt-get update
 # Install essential packages
-RUN apt-get install build-essential software-properties-common wget curl software-properties-common -y
+RUN apt-get install build-essential software-properties-common wget curl software-properties-common locales -y
+# Generate UTF-8
+RUN locale-gen en_US.UTF-8
 # Add neovim ppa
 RUN add-apt-repository ppa:neovim-ppa/unstable
 # Update Ubuntu Software repository to read new added repositories
 RUN apt-get update
 # Install packages
-RUN apt-get install neovim zsh tmux gdb git -y
+RUN apt-get install neovim zsh tmux gdb git radare2 -y
+# Install GEF
+RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
 # Add user
 #RUN adduser --gecos "" --shell /bin/zsh giwiro
 # Add to sudoers
@@ -26,6 +30,10 @@ RUN chsh -s /bin/zsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 # Copy zshrc from github repo
 RUN wget https://raw.githubusercontent.com/giwiro/dotfiles/master/.zshrc -O ->> .zshrc
+
 # Copy tmux.conf from github repo
 RUN wget https://raw.githubusercontent.com/giwiro/dotfiles/master/.tmux.conf
-
+# Create config and nvim folders
+RUN mkdir -p ~/.config/nvim
+# Copy vim config from github repo
+RUN wget https://raw.githubusercontent.com/giwiro/dotfiles/master/.config/nvim/init.vim -O ~/.config/nvim/init.vim
