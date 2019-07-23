@@ -5,7 +5,10 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 BUILDER_NAME=ctf-box:build
+CONTAINER_NAME=ctf-box
 VOLUME_NAME=ctf-box-volume
+
+CURRENT_DIR=$(pwd)
 
 for i in "$@"
 do
@@ -52,13 +55,12 @@ then
   echo -e "${GREEN}[Building]${NC} ${BUILDER_NAME}"
   docker build -t $BUILDER_NAME .
   # Create a container named builder for our built image
-  # echo -e "${GREEN}[Create container]${NC} ${BUILDER_NAME}"
-  # docker create --name builder $BUILDER_NAME
+  echo -e "${GREEN}[Create container]${NC} ${CONTAINER_NAME}"
+  docker create --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" --name $CONTAINER_NAME $BUILDER_NAME
 fi
 
 if [ -n "$RUN_IMAGE" ]
 then
-	CURRENT_DIR=$(pwd)
   echo -e "${GREEN}[Running]${NC} ${BUILDER_NAME}"
-  docker run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" $BUILDER_NAME
+  # docker run --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" $BUILDER_NAME
 fi
