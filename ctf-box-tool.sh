@@ -55,7 +55,7 @@ if [ -n "$BUILD_IMAGE" ]
 then
   # Build
   echo -e "${GREEN}[Building]${NC} ${BUILDER_NAME}"
-  docker build -t $BUILDER_NAME .
+  docker build --no-cache -t $BUILDER_NAME .
   # Create a container named builder for our built image
   # echo -e "${GREEN}[Create container]${NC} ${CONTAINER_NAME}"
   # docker create --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$CURRENT_DIR/$VOLUME_NAME":"/dev/$VOLUME_NAME" --name $CONTAINER_NAME $BUILDER_NAME

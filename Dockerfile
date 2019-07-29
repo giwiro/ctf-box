@@ -5,7 +5,7 @@ WORKDIR /root/
 # Update Ubuntu Software repository
 RUN apt-get update
 # Install essential packages
-RUN apt-get install build-essential software-properties-common wget curl software-properties-common locales python -y
+RUN apt-get install build-essential software-properties-common wget curl software-properties-common locales python -y --fix-missing
 # Generate UTF-8
 RUN locale-gen en_US.UTF-8
 # Add neovim ppa
