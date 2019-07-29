@@ -5,15 +5,17 @@ WORKDIR /root/
 # Update Ubuntu Software repository
 RUN apt-get update
 # Install essential packages
-RUN apt-get install build-essential software-properties-common wget curl software-properties-common locales -y
+RUN apt-get install build-essential software-properties-common wget curl software-properties-common locales python -y
 # Generate UTF-8
 RUN locale-gen en_US.UTF-8
 # Add neovim ppa
 RUN add-apt-repository ppa:neovim-ppa/unstable
+# Add python3.7 repo
+RUN add-apt-repository ppa:deadsnakes/ppa
 # Update Ubuntu Software repository to read new added repositories
 RUN apt-get update
 # Install packages
-RUN apt-get install neovim zsh tmux gdb git radare2 -y
+RUN apt-get install neovim zsh tmux gdb git radare2 python3.7 -y
 # Install GEF
 RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
 # Add user
