@@ -17,7 +17,7 @@ RUN dpkg --add-architecture i386
 # Update Ubuntu Software repository to read new added repositories
 RUN apt-get update
 # Install packages
-RUN apt-get install neovim zsh tmux gdb git radare2 python3.7 libc6:i386 libncurses5:i386 libstdc++6:i386 bsdmainutils nc -y
+RUN apt-get install neovim zsh tmux gdb git radare2 python3.7 libc6:i386 libncurses5:i386 libstdc++6:i386 bsdmainutils netcat -y
 # Install GEF
 RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
 # Add user
