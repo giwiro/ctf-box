@@ -31,6 +31,7 @@ RUN apt-get install -y \
 		libncurses5:i386\
 		libstdc++6:i386\
 		bsdmainutils\
+		binwalk \
 		netcat
 # Install GEF
 RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
