@@ -2,35 +2,45 @@
 FROM ubuntu:16.04
 # Base dir set up
 WORKDIR /root/
+# Configure i386 arch
+RUN dpkg --add-architecture i386
 # Update Ubuntu Software repository
 RUN apt-get update
-# Install essential packages
-RUN apt-get install build-essential software-properties-common wget curl software-properties-common locales python -y --fix-missing
-# Generate UTF-8
-RUN locale-gen en_US.UTF-8
+# Install package management essential
+RUN apt-get install -y --fix-missing \
+		build-essential\
+		software-properties-common
 # Add neovim ppa
 RUN add-apt-repository ppa:neovim-ppa/unstable
 # Add python3.7 repo
 RUN add-apt-repository ppa:deadsnakes/ppa
-# Configure i386 arch
-RUN dpkg --add-architecture i386
 # Update Ubuntu Software repository to read new added repositories
 RUN apt-get update
+# Install essential packages
+RUN apt-get install -y --fix-missing \
+		libc6:i386\
+		libncurses5:i386\
+		libstdc++6:i386\
+		bsdmainutils\
+		wget\
+		curl\
+		locales\
+		python\
+		python3.7\
+		git
+# Generate UTF-8
+RUN locale-gen en_US.UTF-8
+# Update Ubuntu Software repository to read new added repositories
+# RUN apt-get update
 # Install packages
 RUN apt-get install -y \
 		neovim \
 		zsh\
 		tmux\
 		gdb\
-		git\
 		radare2\
-		python3.7\
 		strace\
 		ltrace\
-		libc6:i386\
-		libncurses5:i386\
-		libstdc++6:i386\
-		bsdmainutils\
 		binwalk \
 		netcat
 # Install GEF
