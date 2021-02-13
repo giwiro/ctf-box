@@ -1,2 +1,3 @@
 .DS_Store
-ctf-box-volume/
+volume-ctf-box/
+*.o

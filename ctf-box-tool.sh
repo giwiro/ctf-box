@@ -6,7 +6,7 @@ NC='\033[0m'
 
 BUILDER_NAME=ctf-box:build
 CONTAINER_NAME=ctf-box
-VOLUME_NAME=ctf-box-volume
+VOLUME_NAME=volume-ctf-box
 HOSTNAME=machinex
 BASH_BIN=/bin/zsh
 

@@ -42,7 +42,8 @@ RUN apt-get install -y \
 		strace\
 		ltrace\
 		binwalk \
-		netcat
+		netcat \
+        nasm
 # Install GEF
 RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
 # Add user
@@ -66,3 +67,8 @@ RUN wget https://raw.githubusercontent.com/giwiro/dotfiles/master/.tmux.conf
 RUN mkdir -p ~/.config/nvim
 # Copy vim config from github repo
 RUN wget https://raw.githubusercontent.com/giwiro/dotfiles/master/.config/nvim/init.vim -O ~/.config/nvim/init.vim
+
+
+# Install commonly used scripts
+COPY ./bin/* /usr/local/bin/
+
