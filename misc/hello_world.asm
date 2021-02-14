@@ -1,38 +1,36 @@
-SECTION .text
-    GLOBAL _start
+;; This version includes a "hack" in order to persist the message
+;; in the stack. That's why we pop and store it in ecx (2nd parameter
+;; of sys_write)
+
+global _start
+    section .text
 
 _start:
-    xor eax, eax;       eax = 0
-    xor ebx, ebx;       ebx = 0
-    xor ecx, ecx;       ecx = 0
-    xor edx, edx;       edx = 0
 
-    push eax;           null terminated str
-    push 0x006F7269
-    push 0x77696720
-    push 0x72307834
-    push 0x68203733
-    push 0x33313320
-    push 0x6B636162
-    push 0x20656D6F
-    push 0x636C6557
+    jmp short call_str
 
-    ;; all this pushes, increases the size of the stack by decreasing its value
-    ;; so at the point esp points to the top of the stack (the last item pushed)
+    starter:
+        xor eax, eax
+        xor ebx, ebx
+        xor ecx, ecx
+        xor edx, edx
 
-    mov al, 0x4;        sys_write x86
-    mov bl, 0x1;        stdout
-    mov ecx, esp;
-    mov dl, 0x20;       0x20 => 32(base 10) is the length of the string
+        pop ecx
 
-    int 0x80;           call interrupt 
+        mov al, 0x4
+        mov bl, 0x1
+        mov dl, 0x20
 
-    xor eax, eax;       eax = 0
-    xor ebx, ebx;       ebx = 0
+        int 0x80
 
-    mov al, 0x01;       sys_exit
-    mov bl, 0x00;       exit code, we can ommit this, but it's for educational purposes
+        xor eax, eax
+        xor ebx, ebx
 
-    int 0x80;           call interrupt
+        mov al, 0x1
 
+        int 0x80
+
+    call_str:
+        call starter
+        message db "Welcome back 31337 h4x0r g1w1r0", 0xA
 

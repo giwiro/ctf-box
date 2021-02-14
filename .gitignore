@@ -1,3 +1,4 @@
 .DS_Store
 volume-ctf-box/
 *.o
+*.out

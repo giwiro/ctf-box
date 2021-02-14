@@ -16,7 +16,7 @@ def valid_line(line):
     return valid_line_rgx.match(line)
 
 
-def get_code(line):
+def get_code(line, little_endian):
     s = line.split(":")[1].lstrip()
     s = s.split("\t")[0].rstrip()
     s = s.split(" ")
@@ -25,15 +25,18 @@ def get_code(line):
 
     for o in s:
         c.append("\\x" + str(o).upper())
+
+    if little_endian:
+        c = reversed(c)
     
     return c
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--little-endian", action="store_true", default=False)
+    #parser.add_argument("-l", "--little-endian", action="store_true", default=False)
 
-    args = parser.parse_args()
+    #args = parser.parse_args()
 
     if not sys.stdin.isatty():
         try:
@@ -48,15 +51,11 @@ if __name__ == "__main__":
                 if not valid_line(line):
                     continue
 
-                c = get_code(line)
+                c = get_code(line, False) # args.little_endian)
                 
                 code += c
 
             length = len(code)
-            
-            if args.little_endian:
-                code = reversed(code)
-
             code_str = "".join(code)
 
             print "\n" + code_str
