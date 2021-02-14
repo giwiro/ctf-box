@@ -28,6 +28,10 @@ do
         RUN_IMAGE=true
         shift
         ;;
+    -s|--stop)
+        STOP_CONTAINER=true
+        shift
+        ;;
     *)
         ;;
     esac
@@ -71,6 +75,21 @@ then
   # Delete the ones that has <none> repository name
   if [[ "$(docker images -f 'dangling=true' -q 2> /dev/null)" != "" ]]; then
     docker rmi $(docker images -f 'dangling=true' -q)
+  fi
+fi
+
+if [ -n "$STOP_CONTAINER" ]
+then
+  # Clean up
+  echo -e "${GREEN}[Stopping]${NC}"
+  
+  RUNNING_CONTAINER_ID=$(docker ps --filter "ancestor=$BUILDER_NAME" --filter "status=running" -aq)
+
+  # Stop and kill all running ctf-box containers
+  if [ ! -z "$RUNNING_CONTAINER_ID" ]
+  then
+    echo -e "Killing running container_id $RUNNING_CONTAINER_ID"
+    docker kill "$RUNNING_CONTAINER_ID"
   fi
 fi
 
