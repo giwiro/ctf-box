@@ -3,6 +3,8 @@
 
 In order to configure some of the cool tools, I used the ones on my [dotfiles repo](https://github.com/giwiro/dotfiles).
 
+It now runs init as pid 1 ! (This will enable the usage of `systemd`)
+
 ## Tools
 
 ### Cool Tools
@@ -16,9 +18,6 @@ In order to configure some of the cool tools, I used the ones on my [dotfiles re
 
 ### Reversing Tools
 
-* neovim
-* zsh
-* tmux
 * python
 * python3.7
 * gdb
@@ -27,6 +26,14 @@ In order to configure some of the cool tools, I used the ones on my [dotfiles re
 * ltrace
 * binwalk
 * netcat
+
+### Exploiting Tools
+
+* metasploit
+
+### Useful Tools
+
+* postgresql-12
 
 ## Chalenges
 
