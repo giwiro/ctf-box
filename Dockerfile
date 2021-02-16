@@ -26,16 +26,32 @@ RUN apt-get install -y --fix-missing \
         bsdmainutils\
         wget\
         curl\
+        libcurl4-openssl-dev\
         locales\
         python\
         python3.7\
         git
+
+# Update python3 
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
+# Install pip
+RUN apt-get install -y --fix-missing \
+        python-pip\
+        python3-pip\
+        git
+# Update pip
+RUN pip3 install --upgrade pip setuptools
+# Install common pip packages
+RUN pip install requests
+# Install common pip3 packages
+RUN pip3 install requests
 # Generate UTF-8
 RUN locale-gen en_US.UTF-8
 # Update Ubuntu Software repository to read new added repositories
 # RUN apt-get update
 # Install packages
 RUN apt-get install -y \
+        sudo\
         neovim \
         zsh\
         tmux\
@@ -58,6 +74,8 @@ RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
 # Add to sudoers
 #RUN echo "giwiro ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/giwiro && \
 #    chmod 0440 /etc/sudoers.d/giwiro
+# Install sqlmap
+RUN (cd /opt; git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev)
 # Install vim plug
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -75,7 +93,12 @@ RUN mkdir -p ~/.config/nvim
 # Copy vim config from github repo
 RUN wget https://raw.githubusercontent.com/giwiro/dotfiles/master/.config/nvim/init.vim -O ~/.config/nvim/init.vim
 # Install metasploit
-# RUN (cd /tmp; curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall)
+RUN (cd /tmp; curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall)
+# Install dirb (by the great The Dark Raver)
+RUN (cd /tmp; wget https://razaoinfo.dl.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz; tar -xvf dirb222.tar.gz; cd dirb222; chmod +x ./configure; ./configure; make; make install; mkdir /usr/share/dirb/; mv ./wordlists /usr/share/dirb/; chown -R root:root /usr/share/dirb/)
+# Install jwt_tool for forging jwt tokens
+RUN pip3 install pycryptodomex termcolor
+RUN (cd /opt; git clone https://github.com/ticarpi/jwt_tool;)
 # Install commonly used scripts
 COPY ./bin/* /usr/local/bin/
 

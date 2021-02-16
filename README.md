@@ -30,6 +30,9 @@ It now runs init as pid 1 ! (This will enable the usage of `systemd`)
 ### Exploiting Tools
 
 * metasploit
+* sqlmap
+* dirb
+* jwt_tool
 
 ### Useful Tools
 
