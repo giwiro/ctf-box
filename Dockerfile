@@ -35,7 +35,7 @@ RUN apt-get install -y --fix-missing \
         openvpn\
         zip\
         unzip\
-        awk
+        gawk
 
 # Update python3 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
