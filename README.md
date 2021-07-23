@@ -30,9 +30,15 @@ It now runs init as pid 1 ! (This will enable the usage of `systemd`)
 ### Exploiting Tools
 
 * metasploit
+* searchsploit
 * sqlmap
 * dirb
 * jwt_tool
+
+### Python3 useful libs
+
+* Ropper
+* Requests
 
 ### Useful Tools
 

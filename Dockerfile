@@ -24,13 +24,18 @@ RUN apt-get install -y --fix-missing \
         gcc-multilib \
         g++-multilib \
         bsdmainutils\
+        man-db\
         wget\
         curl\
         libcurl4-openssl-dev\
         locales\
         python\
         python3.7\
-        git
+        git\
+        openvpn\
+        zip\
+        unzip\
+        awk
 
 # Update python3 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
@@ -40,11 +45,11 @@ RUN apt-get install -y --fix-missing \
         python3-pip\
         git
 # Update pip
-RUN pip3 install --upgrade pip setuptools
-# Install common pip packages
-RUN pip install requests
+RUN python3 -m pip install --upgrade pip setuptools
 # Install common pip3 packages
-RUN pip3 install requests
+RUN python3 -m pip install requests capstone filebytes keystone-engine ropper
+# Install common pip packages
+RUN python -m pip install requests
 # Generate UTF-8
 RUN locale-gen en_US.UTF-8
 # Update Ubuntu Software repository to read new added repositories
@@ -94,6 +99,10 @@ RUN mkdir -p ~/.config/nvim
 RUN wget https://raw.githubusercontent.com/giwiro/dotfiles/master/.config/nvim/init.vim -O ~/.config/nvim/init.vim
 # Install metasploit
 RUN (cd /tmp; curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall)
+# Install exploitdb
+RUN git clone https://github.com/offensive-security/exploitdb.git /opt/exploit-database
+RUN ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
+RUN cp -n /opt/exploit-database/.searchsploit_rc ~/
 # Install dirb (by the great The Dark Raver)
 RUN (cd /tmp; wget https://razaoinfo.dl.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz; tar -xvf dirb222.tar.gz; cd dirb222; chmod +x ./configure; ./configure; make; make install; mkdir /usr/share/dirb/; mv ./wordlists /usr/share/dirb/; chown -R root:root /usr/share/dirb/)
 # Install jwt_tool for forging jwt tokens
