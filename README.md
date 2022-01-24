@@ -32,8 +32,8 @@ It now runs init as pid 1 ! (This will enable the usage of `systemd`)
 * metasploit
 * searchsploit
 * sqlmap
-* dirb
-* jwt_tool
+* dirb (url fuzzer)
+* jwt_tool (forge and exploit jwt token)
 
 ### Python3 useful libs
 
@@ -43,6 +43,7 @@ It now runs init as pid 1 ! (This will enable the usage of `systemd`)
 ### Useful Tools
 
 * postgresql-12
+* nodejs 16
 
 ## Chalenges
 

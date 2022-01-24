@@ -1,7 +1,10 @@
 # Download base image ubuntu 16.04
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 # Base dir set up
 WORKDIR /root/
+# Configure TZ
+ENV TZ=America
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Configure i386 arch
 RUN dpkg --add-architecture i386
 # Update Ubuntu Software repository
@@ -13,7 +16,7 @@ RUN apt-get install -y --fix-missing \
 # Add neovim ppa
 RUN add-apt-repository ppa:neovim-ppa/unstable
 # Add python3.7 repo
-RUN add-apt-repository ppa:deadsnakes/ppa
+# RUN add-apt-repository ppa:deadsnakes/ppa
 # Update Ubuntu Software repository to read new added repositories
 RUN apt-get update
 # Install essential packages
@@ -30,7 +33,7 @@ RUN apt-get install -y --fix-missing \
         libcurl4-openssl-dev\
         locales\
         python\
-        python3.7\
+        python3.8\
         git\
         openvpn\
         zip\
@@ -38,10 +41,10 @@ RUN apt-get install -y --fix-missing \
         gawk
 
 # Update python3 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 # Install pip
 RUN apt-get install -y --fix-missing \
-        python-pip\
+        # python-pip\
         python3-pip\
         git
 # Update pip
@@ -49,7 +52,7 @@ RUN python3 -m pip install --upgrade pip setuptools
 # Install common pip3 packages
 RUN python3 -m pip install requests capstone filebytes keystone-engine ropper
 # Install common pip packages
-RUN python -m pip install requests
+# RUN python -m pip install requests
 # Generate UTF-8
 RUN locale-gen en_US.UTF-8
 # Update Ubuntu Software repository to read new added repositories
@@ -108,6 +111,9 @@ RUN (cd /tmp; wget https://razaoinfo.dl.sourceforge.net/project/dirb/dirb/2.22/d
 # Install jwt_tool for forging jwt tokens
 RUN pip3 install pycryptodomex termcolor
 RUN (cd /opt; git clone https://github.com/ticarpi/jwt_tool;)
+# Install nodejs
+RUN curl -fsSL https://rpm.nodesource.com/setup_16.x | bash -
+RUN apt-get install nodejs
 # Install commonly used scripts
 COPY ./bin/* /usr/local/bin/
 
