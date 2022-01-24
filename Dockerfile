@@ -112,7 +112,7 @@ RUN (cd /tmp; wget https://razaoinfo.dl.sourceforge.net/project/dirb/dirb/2.22/d
 RUN pip3 install pycryptodomex termcolor
 RUN (cd /opt; git clone https://github.com/ticarpi/jwt_tool;)
 # Install nodejs
-RUN curl -fsSL https://rpm.nodesource.com/setup_16.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 RUN apt-get install nodejs
 # Install commonly used scripts
 COPY ./bin/* /usr/local/bin/
